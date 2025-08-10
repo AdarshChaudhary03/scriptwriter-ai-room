@@ -1,3 +1,4 @@
+from data.db_utils import init_db
 import gradio as gr
 from langgraph.graph import StateGraph, START, END
 from state.states import ScriptState
@@ -33,10 +34,12 @@ app = workflow.compile(checkpointer=memory)
 # -----------------
 def generate_script(genre):
     """Generate a script flow based on user-selected genre."""
+    session_id = "session_001"
+    init_db()
     config = {"configurable": {"thread_id": "user-session"}}
     
     # Pass genre into state so idea_generator can use it
-    final_state = app.invoke({"genre": genre}, config=config)
+    final_state = app.invoke({"genre": genre, "session_id": session_id}, config=config)
 
     # Convert list outputs to strings
     characters_str = "\n".join(final_state["characters"]) if isinstance(final_state["characters"], list) else str(final_state["characters"])
@@ -91,4 +94,4 @@ with gr.Blocks(title="AI Script Generator") as demo:
 
 # Run the app
 if __name__ == "__main__":
-    demo.launch()
+    demo.launch(share=False)

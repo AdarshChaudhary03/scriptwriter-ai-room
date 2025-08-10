@@ -5,6 +5,7 @@ class ScriptState(TypedDict, total=False):
     idea: str
     characters: List[str]
     genre: str
+    session_id: str
     dialogues: str
     outline: List[str]
     draft: str
