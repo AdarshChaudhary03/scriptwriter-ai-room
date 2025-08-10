@@ -1,5 +1,4 @@
 from typing import TypedDict, List, Optional
-from datetime import datetime
 
 class ScriptState(TypedDict, total=False):
     idea: str

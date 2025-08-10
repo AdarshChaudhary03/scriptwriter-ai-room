@@ -13,27 +13,27 @@ def init_db():
             idea TEXT,
             characters TEXT,
             outline TEXT,
-            dialogues TEXT
+            screenplay TEXT
         )
     """)
     conn.commit()
     conn.close()
 
-def save_to_db(script_id,genre=None, idea=None, characters=None, outline=None, dialogues=None):
+def save_to_db(script_id,genre=None, idea=None, characters=None, outline=None, screenplay=None):
     """Insert or update a script entry in the DB."""
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
 
     cursor.execute("""
-            INSERT INTO scripts (script_id, genre, idea, outline, dialogues, characters)
+            INSERT INTO scripts (script_id, genre, idea, outline, screenplay, characters)
             VALUES (?, ?, ?, ?, ?, ?)
             ON CONFLICT(script_id) DO UPDATE SET
                 genre=COALESCE(?, genre),
                 idea=COALESCE(?, idea),
                 outline=COALESCE(?, outline),
-                dialogues=COALESCE(?, dialogues),
+                screenplay=COALESCE(?, screenplay),
                 characters=COALESCE(?, characters)
-        """, (script_id, genre, idea, outline, dialogues, characters, genre,idea,outline,dialogues,characters))
+        """, (script_id, genre, idea, outline, screenplay, characters, genre,idea,outline,screenplay,characters))
 
     conn.commit()
     conn.close()
